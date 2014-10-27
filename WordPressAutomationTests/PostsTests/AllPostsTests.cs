@@ -16,11 +16,10 @@ namespace WordPressAutomationTests.PostsTests
         //can search
         //etc ideas for tests...
 
+
         //Added posts show up in all posts
-        //can trash a post
-        //can search a post
-
-
+        //can trash a post -> done by default with the Added_Posts_Show_Up test
+        // doesnt make sense for another test just for trash?
         [TestCategory("All Posts Page"), TestMethod]
         public void Added_Posts_Show_Up()
         { 
@@ -44,6 +43,31 @@ namespace WordPressAutomationTests.PostsTests
             //trash post (clean up)
             ListPostsPage.TrashPost("Aded posts show up, title");
             Assert.AreEqual(ListPostsPage.PreviousPostCount, ListPostsPage.CurrentPostCount,"Couldnt trash post");
+        }
+
+        //can search a post
+        [TestCategory("All Posts Page"), TestMethod]
+        public void Can_Search_Posts()
+        {
+            //Create a new post
+            NewPostPage.GoTo();
+            NewPostPage.CreatePost("Searching posts,title")
+                .WithBody("Searching posts, body")
+                .Publish();
+
+            //go to list posts
+            ListPostsPage.GoTo(PostType.Posts);
+
+            //search for post
+            ListPostsPage.SearchForPost("Searching posts,title");
+
+            //shceck that post show up in results
+            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle("Searching posts,title"));
+
+            //clean up (trash posts)
+            ListPostsPage.TrashPost("Searching posts,title");
+            Assert.AreEqual(ListPostsPage.PreviousPostCount, ListPostsPage.CurrentPostCount, "Couldnt trash post"); //i added
+
         }
     }
 }
