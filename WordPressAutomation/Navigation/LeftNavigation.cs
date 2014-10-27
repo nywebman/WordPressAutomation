@@ -11,6 +11,13 @@ namespace WordPressAutomation
     {
         public class Posts
         {
+            public class AllPosts
+            {
+                internal static void Select()
+                {
+                    MenuSelector.Select("menu-posts", "Add Posts");
+                }
+            }
             public class AddNew
             {
                 public static void Select()
