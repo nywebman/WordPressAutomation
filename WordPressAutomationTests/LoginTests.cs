@@ -5,31 +5,15 @@ using WordPressAutomation;
 namespace WordPressAutomationTests
 {
     [TestClass]
-    public class LoginTests
+    public class LoginTests : WordPressTest
     {
-        [TestInitialize]
-        public void Init()
-        {
-            Driver.Initialize();
-        }
-
         [TestCategory("Login"), TestMethod]
         public void Admin_User_Can_Login()
         {
-            LoginPage.GoTo();
-
-            //written in fluent manner
-            LoginPage.LoginAs("admin")
-                .WithPassword("password")
-                .Login();
-
+            //Still makes sense for a sense that only it only tests login even though other
+            //ones are also logging in
             Assert.IsTrue(DashboardPage.IsAt, "Failed to login");
         }
 
-        [TestCleanup]
-        public void Cleanup()
-        {
-            Driver.Close();
-        }
     }
 }

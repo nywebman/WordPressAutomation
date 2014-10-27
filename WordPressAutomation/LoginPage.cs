@@ -14,7 +14,7 @@ namespace WordPressAutomation
         public static void GoTo()
         {
             //singleton
-            Driver.Instance.Navigate().GoToUrl("http://localhost/wordpress/wp-admin/index.php");
+            Driver.Instance.Navigate().GoToUrl(Driver.BaseAddress + "/wp-admin/index.php");
 
             var wait = new WebDriverWait(Driver.Instance, TimeSpan.FromSeconds(10));
             wait.Until(d => d.SwitchTo().ActiveElement().GetAttribute("id") == "user_login"); //waits until user login is in focus

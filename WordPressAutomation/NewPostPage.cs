@@ -12,11 +12,7 @@ namespace WordPressAutomation
     {
         public static void GoTo()
         {
-            var menuPosts = Driver.Instance.FindElement(By.Id("menu-posts"));
-            menuPosts.Click();
-
-            var addNew = Driver.Instance.FindElement(By.LinkText("Add New"));
-            addNew.Click();
+            LeftNavigation.Posts.AddNew.Select();
         }
 
         public static CreatePostCommand CreatePost(string title)
@@ -26,16 +22,6 @@ namespace WordPressAutomation
 
         public static void GoToNewPost()
         {
-            /*
-            var message = Driver.Instance.FindElement(By.Id("message"));
-            var newPostLinks = Driver.Instance.FindElements(By.TagName("a"));
-            foreach (var postLink in newPostLinks)
-            {
-                if (postLink.Text == "View Post")
-                    postLink.Click();
-                break;
-            }
-            */
             var message = Driver.Instance.FindElement(By.Id("message"));
             var newPostLink = message.FindElements(By.TagName("a"))[0];
             newPostLink.Click();
@@ -80,9 +66,39 @@ namespace WordPressAutomation
             Driver.Instance.SwitchTo().ActiveElement().SendKeys(body);
             Driver.Instance.SwitchTo().DefaultContent();
 
-            Thread.Sleep(3000);
+            Driver.Wait(TimeSpan.FromSeconds(1));
 
             Driver.Instance.FindElement(By.Id("publish")).Click();
+        }
+    }
+
+    public class LeftNavigation
+    {
+        public class Posts
+        {
+            public class AddNew
+            {
+                public static void Select()
+                {
+                    var menuPosts = Driver.Instance.FindElement(By.Id("menu-posts"));
+                    menuPosts.Click();
+
+                    var addNew = Driver.Instance.FindElement(By.LinkText("Add New"));
+                    addNew.Click();
+                }
+            }
+        }
+        public class Pages
+        {
+            public class AllPages
+            {
+                public static void Select()
+                {
+                    Driver.Instance.FindElement(By.Id("menu-pages")).Click();
+                    Driver.Wait(TimeSpan.FromSeconds(1));
+                    Driver.Instance.FindElement(By.LinkText("All Pages")).Click();
+                }
+            }
         }
     }
 }
