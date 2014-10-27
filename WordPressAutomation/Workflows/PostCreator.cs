@@ -64,5 +64,31 @@ namespace WordPressAutomation.Workflows
                                      };
 
 
+
+        public static void Initialize()
+        {
+            PreviousTitle = null;
+            PreviousBody = null;
+        }
+
+        public static void Cleanup()
+        {
+            if (CreateAPost)
+                TrashPost();
+        }
+
+        private static void TrashPost()
+        {
+            ListPostsPage.TrashPost(PreviousTitle);
+            Initialize();
+        }
+
+        protected static bool CreateAPost
+        {
+            get
+            {
+                return !String.IsNullOrEmpty(PreviousTitle);
+            }
+        }
     }
 }

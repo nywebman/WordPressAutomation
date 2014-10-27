@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordPressAutomation;
+using WordPressAutomation.Workflows;
 
 namespace WordPressAutomationTests
 {
@@ -14,6 +15,7 @@ namespace WordPressAutomationTests
         public void Init()
         {
             Driver.Initialize();
+            PostCreator.Initialize();
             LoginPage.GoTo();
             LoginPage.LoginAs("admin").WithPassword("password").Login();
         }
@@ -21,6 +23,7 @@ namespace WordPressAutomationTests
         [TestCleanup]
         public void Cleanup()
         {
+            PostCreator.Cleanup();
             Driver.Close();
         }
     }
