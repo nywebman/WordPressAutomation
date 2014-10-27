@@ -7,7 +7,6 @@ using OpenQA.Selenium;
 
 namespace WordPressAutomation
 {
-    //Lots of nested classes
     public class LeftNavigation
     {
         public class Posts
@@ -31,14 +30,4 @@ namespace WordPressAutomation
             }
         }
     }
-    public class MenuSelector
-	{
-
-        public static void Select(string topLevelMenuId, string subMenuLinkText)
-        {
-            Driver.Instance.FindElement(By.Id(topLevelMenuId)).Click();
-            Driver.Wait(TimeSpan.FromSeconds(1));
-            Driver.Instance.FindElement(By.LinkText(subMenuLinkText)).Click();
-        }
-    } 
 }
