@@ -5,21 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordPressAutomation;
+using WordPressAutomation.Workflows;
 
 namespace WordPressAutomationTests.PostsTests
 {
     [TestClass]
     public class AllPostsTests : WordPressTest
     {
-        //added posts show up in all posts
-        //bulk action
-        //can search
-        //etc ideas for tests...
-
-
         //Added posts show up in all posts
-        //can trash a post -> done by default with the Added_Posts_Show_Up test
-        // doesnt make sense for another test just for trash?
         [TestCategory("All Posts Page"), TestMethod]
         public void Added_Posts_Show_Up()
         { 
@@ -28,20 +21,17 @@ namespace WordPressAutomationTests.PostsTests
             ListPostsPage.StoreCount();
 
             //add a new post
-            NewPostPage.GoTo();
-            NewPostPage.CreatePost("Aded posts show up, title")
-                .WithBody("Added posts show up, body")
-                .Publish();
+            PostCreator.CreatePost();
 
-            //go to postsm get new post count
+            //go to post get new post count
             ListPostsPage.GoTo(PostType.Posts);
             Assert.AreEqual(ListPostsPage.PreviousPostCount + 1, ListPostsPage.CurrentPostCount,"Count of posts did not increase");
             
             //check for added post
-            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle("Aded posts show up, title"));
+            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle(PostCreator.PreviousTitle));
 
             //trash post (clean up)
-            ListPostsPage.TrashPost("Aded posts show up, title");
+            ListPostsPage.TrashPost(PostCreator.PreviousTitle);
             Assert.AreEqual(ListPostsPage.PreviousPostCount, ListPostsPage.CurrentPostCount,"Couldnt trash post");
         }
 
@@ -50,22 +40,19 @@ namespace WordPressAutomationTests.PostsTests
         public void Can_Search_Posts()
         {
             //Create a new post
-            NewPostPage.GoTo();
-            NewPostPage.CreatePost("Searching posts,title")
-                .WithBody("Searching posts, body")
-                .Publish();
+            PostCreator.CreatePost();
 
             //go to list posts
             ListPostsPage.GoTo(PostType.Posts);
 
             //search for post
-            ListPostsPage.SearchForPost("Searching posts,title");
+            ListPostsPage.SearchForPost(PostCreator.PreviousTitle);
 
             //shceck that post show up in results
-            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle("Searching posts,title"));
+            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle(PostCreator.PreviousTitle));
 
             //clean up (trash posts)
-            ListPostsPage.TrashPost("Searching posts,title");
+            ListPostsPage.TrashPost(PostCreator.PreviousTitle);
             Assert.AreEqual(ListPostsPage.PreviousPostCount, ListPostsPage.CurrentPostCount, "Couldnt trash post"); //i added
 
         }
